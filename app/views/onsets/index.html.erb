@@ -1,0 +1,14 @@
+  <h3 style="text-align:center">登録疾患名</h3>
+  <div style="text-align:center">
+    <%= link_to " 疾患一覧", diseases_path,id: @disease ,class:"btn btn-primary btn-lg fas fa-file-medical "%>
+  </div>
+  <br>
+  <% @onsets.sort_by {|onset| onset.disease_id}.each do |onset|%>
+  <br>
+  <h5 style="text-align:center">告示番号<%=link_to onset.disease.number,disease_url(onset.disease_id) %></h5>
+  <h2 style="text-align:center"><%=link_to onset.disease.name,disease_url(onset.disease_id) %></h2>
+  <% end %>
+  <br>
+  <p style="text-align:center">
+    <%= link_to '戻る', user_path(current_user.id) %>
+  </p>

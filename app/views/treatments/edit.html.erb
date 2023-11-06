@@ -1,0 +1,41 @@
+<h2 style="text-align:center">治療情報の編集</h2>
+<br>
+<%= form_with(model: [@treatment.disease, @treatment], local: true) do |form| %>
+<% if @treatment.errors.any? %> <div id="error_explanation">
+  <h2><%= pluralize(@treatment.errors.count, "件") %> のエラーがあります</h2>
+  <ul>
+    <% @treatment.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<div class="user_field">
+  <%= form.label :罹患日 %>
+  <%= form.date_field :affected_on %>
+</div>
+
+<div class="user_field">
+  <%= form.label :薬剤名 %>
+  <%= form.text_field :drug_name %>
+</div>
+
+<div class="user_field">
+  <%= form.label :内容 %>
+  <%= form.text_area :content %>
+</div>
+
+<div class="user_field">
+  <%= form.label :アドバイス %>
+  <%= form.text_area :advice %>
+</div>
+<br>
+<div class="actions">
+  <%= form.submit %>
+</div>
+<br>
+<% end %>
+
+<div style="text-align:center">
+  <%= link_to '戻る', disease_treatments_path(@treatment.disease_id) %>
+</div>

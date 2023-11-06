@@ -1,0 +1,44 @@
+<% if alert %>
+<p class="alert alert-danger"><%= alert %><button type="button" class="close" data-dismiss="alert">&times;</button>
+</p>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10">
+      <table class="head message-container">
+        <tr>
+          <th style="text-align: left; font-size: 1rem;"><%= "" %></th>
+          <th style="text-align: left; font-size: 1rem;"><%= "" %></th>
+        </tr>
+      </table>
+      <table class="message container">
+        <% @messages.each do |message| %>
+
+        <div>
+          <%= render partial:'message', locals: {message: message}%>
+        </div>
+
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
+<br>
+
+<div style="text-align:center">
+  <% if @over_ten %>
+  <%= link_to '過去のメッセージを表示する', '?m=all' %>
+  <% end %></div>
+<%= form_with(model: [@conversation, @message], remote: true) do |f| %>
+<div class="user_field">
+  <%= f.text_area :body, class: "form-control", placeholder: "メッセージを入力してください" %>
+</div>
+<%= f.text_field :user_id, value: current_user.id, type: "hidden"  %>
+<div class="user_field">
+  <%= f.submit "メッセージを送る"%>
+</div>
+<br>
+<% end %>

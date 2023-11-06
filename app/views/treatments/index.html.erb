@@ -1,0 +1,52 @@
+<h5 style="text-align:center">告示番号<%= @disease.number %></h5>
+<h2 style="text-align:center"><%= @disease.name %></h2>
+<br>
+
+<div style="text-align:center">現在この疾患の治療費情報は<%= @treatments.where(params[:created_at]).total_count %>件です。</div>
+
+<br>
+<div style="text-align:center">
+  <%= link_to " 情報登録", new_disease_treatment_path,id: @disease ,class:"btn btn-success btn-lg far fa-edit "%>
+  <%= link_to " 治療費一覧", "/diseases/#{@disease.id}/expenses",id: @disease ,class:"btn btn-primary btn-lg fas fa-comments-dollar"%>
+</div>
+<div style="text-align:center">
+  <%= link_to '戻る', disease_path(@disease) %></div>
+
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th nowrap scope="col">User</th>
+      <th nowrap scope="col">服用薬剤</th>
+      <th nowrap scope="col">治療内容</th>
+      <th nowrap scope="col">アドバイス</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @treatments.each do |treatment| %>
+    <tr>
+      <% if treatment.user.image.blank? %>
+      <td> <img src="/assets/icon1.png" width="90" height="90">
+        <%else %>
+      <td nowrap width=15%> <img src=<%= treatment.user.image %> width="90" height="90">
+        <% end %>
+        <div><%= link_to treatment.user.name, treatment.user %></div>
+        <%= treatment.user.age %> /
+        <%= treatment.user.prefecture %>
+        <br>
+        投稿:<%= treatment.created_at.strftime("%Y/%m/%d/ %I:%M%#p")%>
+        <br>
+        <% if treatment.user_id == current_user.id %>
+        <%= link_to '編集', edit_disease_treatment_path(treatment, id: treatment.id) %>
+        <%= link_to '削除', disease_treatment_path(treatment, id: treatment.id), method: :delete, data: { confirm: '本当に削除しますか?' } %>
+        <%end %>
+      </td>
+      <td width=15%><%= treatment.drug_name %></td>
+      <td width=30%><%= treatment.content %></td>
+      <td width=30%><%= treatment.advice %></td>
+      <%#= link_to 'Show', disease_treatment_path(treatment, id: treatment.id) %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @treatments %>
+<%#= link_to 'New expenses', new_disease_expense_path(@disease) %>

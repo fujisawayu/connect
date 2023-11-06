@@ -1,0 +1,39 @@
+<h1>User一覧</h1>
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th nowrap scope="col">名前</th>
+      <th nowrap scope="col">年齢</th>
+      <th nowrap scope="col">エリア</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+    <tr>
+      <td><%= link_to user.name, user %></td>
+      <td><%= user.age %></td>
+      <td><%= user.prefecture %></td>
+      <%# <td><%= link_to '編集', edit_user_path(user) %>
+      <%# <td><%= link_to '削除', user, method: :delete, data: { confirm: 'のエラーがあります' } %>
+      <td> <%= render 'follow_form', user: user %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<%# <%= link_to 'New User', new_user_path %>
+<%= link_to 'ホーム', root_path %>
+
+<h2>ユーザー</h2>
+<% @users.each do |user| %>
+<% if user.id != current_user.id %>
+<li>
+  <div class="item">
+    <%= link_to user.name, user %>
+    <%= link_to 'メッセージ', conversations_path(sender_id: current_user.id, recipient_id: user.id), method: :post %>
+  </div>
+</li>
+<li><%= render 'follow_form', user: user %></li> <!-- フォロー機能が実装されて入ればこの一文も必要 -->
+<% end %>
+<% end %>

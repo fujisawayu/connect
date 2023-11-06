@@ -1,0 +1,30 @@
+<h5 style="text-align:center">告示番号<%= @disease.number %></h5>
+<h2 style="text-align:center"><%= @disease.name %></h2>
+<br>
+<div style="text-align:center">
+  <% if @onset.present? %>
+  <%= link_to '疾患登録を解除する', onset_path(id: @onset.id), method: :delete, class: 'btn btn-danger' %>
+  <% else %>
+  <%= link_to '疾患を登録する', onsets_path(disease_id: @disease.id), method: :post, class: 'btn btn-primary' %>
+  <% end %>
+
+  <%= link_to " 情報一覧", "/diseases/#{@disease.id}/treatments",id: @disease ,class:"btn btn-primary btn-lg far fa-edit "%>
+
+  <%= link_to " 治療費一覧", "/diseases/#{@disease.id}/expenses",id: @disease ,class:"btn btn-primary btn-lg fas fa-comments-dollar"%>
+</div>
+
+<!-- コメント入力欄をブログの詳細ページに表示するためのrender上 -->
+<%= render partial: 'comments/form', locals: { comment: @comment, disease: @disease } %>
+
+<div style="text-align:center">
+  <%= link_to '戻る', diseases_path %></div>
+
+<div id="comments_area">
+  <!-- 投稿されたコメント一覧をブログの詳細ページに表示するためのrender -->
+  <%= render partial: 'comments/index', locals: { comments: @comments, disease: @disease } %>
+</div>
+
+<%#= link_to 'Edit', edit_disease_path(@disease) %>
+<div style="text-align:center">
+  <%= link_to '戻る', diseases_path %>
+</div>

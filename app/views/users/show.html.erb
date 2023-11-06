@@ -1,0 +1,87 @@
+<% if user_signed_in? && @user == current_user %>
+<h2 style="text-align:center"><%= @user.name %>さんのマイページ</h2>
+<% else %>
+<h2 style="text-align:center"><%= @user.name %>さんのページ</h2>
+<% end %>
+<br>
+<div>
+  <div class="flame09">
+    <% if @user.image.blank? %>
+    <div style="text-align:center">
+      <img src="/assets/icon1.png" width="150" height="150">
+    </div>
+    <% else%>
+    <div style="text-align:center">
+      <%= image_tag @user.image.url, size: '150x150' %>
+    </div>
+    <% end %>
+
+    <%# メッセージ　%>
+    <% if @user.id != current_user.id %>
+    <p style="text-align:center">
+      <%= link_to '', conversations_path(sender_id: current_user.id, recipient_id: @user.id), method: :post, class:"btn btn-info btn-lg fas fa-envelope "%>
+    </p>
+    <p><%= render 'follow_form', user: @user %></p>
+
+    <%end%>
+    <%# メッセージ一覧　%>
+    <% if @user.id == current_user.id %>
+    <p style="text-align:center">
+      <%= link_to '',conversations_path, class:"btn btn-info btn-lg fas fa-envelope " %>
+      <%= render 'stats' %></p>
+    <% end %>
+  </div>
+
+
+  <%# 修正予定！ 各Userごとの登録疾患を表示%>
+  <% if @user.id == current_user.id%>
+  <p style="text-align:center">
+    <%= link_to ' 登録した疾患', onsets_path,id: @disease ,class:"btn far fa-calendar-plus "%>
+  </p>
+  <%end%>
+
+  <p style="text-align:center">
+    <strong class="user_strong">名前:</strong>
+    <span class="user_a"><%= @user.name %></span>
+  </p>
+
+  <p style="text-align:center">
+    <strong class="user_strong">メールアドレス:</strong>
+    <span class="user_a"><%= @user.email %></span>
+  </p>
+
+  <p style="text-align:center">
+    <strong class="user_strong">年齢:</strong>
+    <span class="user_a"><%= @user.age %></span>
+  </p>
+
+  <p style="text-align:center">
+    <strong class="user_strong">エリア:</strong>
+    <span class="user_a"><%= @user.prefecture %></span>
+  </p>
+
+  <p style="text-align:center">
+    <strong class="user_strong">生年月日:</strong>
+    <span class="user_a"><%= @user.birthday.strftime("%Y年%m月%d日") unless @user.birthday.blank? %></span>
+  </p>
+
+  <p style="text-align:center">
+    <strong class="user_strong">自己紹介:</strong>
+    <span class="user_a"><%= @user.self_introduction %></span>
+  </p>
+
+
+  <p style="text-align:center">
+    <strong class="user_strong">関係区分:</strong>
+    <span class="user_a"><%= @user.classification %></span>
+  </p>
+</div>
+
+<%# userとdisease.idをリレーションする%>
+<%#= link_to '一覧', users_path %>
+<p style="text-align:center">
+  <% if user_signed_in? && @user == current_user %>
+  <%= link_to '戻る', root_path %>/
+  <%= link_to "プロフィール編集", edit_user_path(current_user) %>
+  <% end %>
+</p>

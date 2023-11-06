@@ -1,0 +1,41 @@
+<h2 style="text-align:center">病名検索</h2>
+
+<div class="parent">
+  <dl class="searchbox ">
+    <%= search_form_for @q, url: search_diseases_path do |f| %>
+    <dt><%= f.search_field :name_or_number_i_cont, placeholder: "告示番号または病名"%></dt>
+    <dd><%= f.submit '検索', class: 'search-btn' %></dd>
+    <% end %>
+  </dl>
+</div>
+
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col" , nowrap width=15%> 告示番号</th>
+      <th scope="col" , nowrap width=30%>病名</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @diseases.each do |disease| %>
+    <tr>
+      <td nowrap width=15%><%= link_to disease.number, disease %></td>
+      <td nowrap width=30%><%= link_to disease.name, disease %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @diseases %>
+<br>
+<div style="text-align:center">
+  <%= link_to 'ホームに戻る', root_path %> /
+  <% if current_user.admin? %>
+  <%= link_to '疾患登録', new_disease_path %>
+  <% end %></div>
+
+<%#<td><%= link_to '情報', disease %>
+<%# <% if current_user.admin? %>
+<%# <td><%= link_to 'Edit', edit_disease_path(disease) %>
+<%# <td><%= link_to 'Destroy', disease, method: :delete, data: { confirm: 'Are you sure?' } %>
+<%# <% end %>
